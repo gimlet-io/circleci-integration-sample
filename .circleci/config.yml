@@ -1,0 +1,50 @@
+version: 2.1
+orbs:
+  gimlet: gimlet-io/circleci-orb@1.0.0
+
+workflows:
+  master-build:
+    jobs:
+      - test:
+          context:
+            - AzureCR
+          filters:
+            branches:
+              only:
+                - master
+      - build_docker:
+          context:
+            - AzureCR
+            - Gimlet
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - test
+      - ship_gimlet_artifact:
+          context:
+            - Gimlet
+
+jobs:
+  test:
+    steps:
+      - checkout
+      - echo test
+
+  build_docker:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - setup_remote_docker:
+          version: 20.10.6
+      - checkout
+      - echo docker
+
+  ship_gimlet_artifact:
+    working_directory: /tmp/workspace
+    machine:
+      image: ubuntu-2004:202111-02
+    steps:
+      - checkout
+      - gimlet/gimlet-artifact-create:
