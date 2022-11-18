@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  gimlet: gimlet-io/circleci-orb@dev:5e77033
+  gimlet: gimlet-io/circleci-orb@4.0.0
 
 workflows:
   master-build:
