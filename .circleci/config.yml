@@ -5,29 +5,13 @@ orbs:
 workflows:
   master-build:
     jobs:
-      - test:
-          context:
-            - AzureCR
-          filters:
-            branches:
-              only:
-                - master
+      - test: {}
       - build_docker:
-          context:
-            - AzureCR
-            - Gimlet
-          filters:
-            branches:
-              only:
-                - master
           requires:
             - test
       - ship_gimlet_artifact:
-          context:
-            - Gimlet
           requires:
             - build_docker
-
 
 jobs:
   test:
@@ -45,7 +29,6 @@ jobs:
       - echo docker
 
   ship_gimlet_artifact:
-    working_directory: /tmp/workspace
     machine:
       image: ubuntu-2004:202111-02
     steps:
