@@ -8,7 +8,7 @@ chart:
 values:
   containerPort: 9000
   gitRepository: gimlet-io/circleci-integration-sample
-  gitSha: '{{ .GITHUB_SHA }}'
+  gitSha: '{{ .SHA }}'
   image:
     repository: ghcr.io/gimlet-io/cis
     tag: '{{ .SHA }}'
