@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  gimlet: gimlet-io/circleci-orb@dev:ae8d780
+  gimlet: gimlet-io/circleci-orb@dev:dfffc52
 
 workflows:
   master-build:
@@ -9,7 +9,7 @@ workflows:
       - build_docker:
           requires:
             - test
-      - ship_gimlet_artifact:
+      - gimlet/gimlet-artifact-push:
           requires:
             - build_docker
 
@@ -35,10 +35,3 @@ jobs:
           name: Building Docker image
           command: |
             echo docker
-
-  ship_gimlet_artifact:
-    machine:
-      image: ubuntu-2004:202111-02
-    steps:
-      - checkout
-      - gimlet/gimlet-artifact-create: {}
