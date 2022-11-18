@@ -25,6 +25,9 @@ workflows:
       - ship_gimlet_artifact:
           context:
             - Gimlet
+          requires:
+            - build_docker
+
 
 jobs:
   test:
@@ -47,4 +50,4 @@ jobs:
       image: ubuntu-2004:202111-02
     steps:
       - checkout
-      - gimlet/gimlet-artifact-create:
+      - gimlet/gimlet-artifact-create: {}
