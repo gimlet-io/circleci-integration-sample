@@ -10,6 +10,10 @@ workflows:
           requires:
             - test
       - gimlet/gimlet-artifact-push:
+          name: 🚀 Deploy / Staging
+          deploy: "true"
+          env: "staging"
+          app: "cis"
           requires:
             - build_docker
 
@@ -22,7 +26,7 @@ jobs:
       - run:
           name: Test
           command: |
-            echo test
+            echo testing
 
   build_docker:
     docker:
@@ -34,4 +38,7 @@ jobs:
       - run:
           name: Building Docker image
           command: |
-            echo docker
+            LATEST_COMMIT=$(git rev-parse HEAD)
+            docker login ghcr.io -u laszlocph -p $PAT
+            docker build -t ghcr.io/gimlet-io/cis:$LATEST_COMMIT .
+            docker push ghcr.io/gimlet-io/cis:$LATEST_COMMIT
