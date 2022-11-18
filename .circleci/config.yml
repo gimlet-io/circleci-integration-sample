@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  gimlet: gimlet-io/circleci-orb@1.0.0
+  gimlet: gimlet-io/circleci-orb@dev:1483001
 
 workflows:
   master-build:
@@ -15,9 +15,14 @@ workflows:
 
 jobs:
   test:
+    docker:
+      - image: cimg/base:2021.04
     steps:
       - checkout
-      - echo test
+      - run:
+          name: Test
+          command: |
+            echo test
 
   build_docker:
     docker:
@@ -26,7 +31,10 @@ jobs:
       - setup_remote_docker:
           version: 20.10.6
       - checkout
-      - echo docker
+      - run:
+          name: Building Docker image
+          command: |
+            echo docker
 
   ship_gimlet_artifact:
     machine:
